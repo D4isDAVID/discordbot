@@ -8,6 +8,11 @@
     "typecheck": "tsc -p server",
     "build": "npm run typecheck && rimraf dist && node build.js"
   },
+  "dependencies": {
+    "@discordjs/core": "1.0.0",
+    "@discordjs/rest": "2.0.0",
+    "tweetnacl": "^1.0.3"
+  },
   "devDependencies": {
     "@citizenfx/server": "^2.0.9780-1",
     "@types/node": "16.9.1",
