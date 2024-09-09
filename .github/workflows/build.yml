@@ -1,0 +1,91 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - '**' # every branch
+      - '!nobuild-**' # unless marked as nobuild
+    tags:
+      - '**'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            server
+            CHANGELOG.md
+            LICENSE
+            README.md
+            base.tsconfig.json
+            build.js
+            discordbot.cfg
+            fxmanifest.lua
+            package-lock.json
+            package.json
+          sparse-checkout-cone-mode: false
+
+      - name: Setup Node.js v22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+
+      - name: Post-build
+        shell: bash
+        run: |
+          rm -rf "./.git"
+          rm -rf "./node_modules"
+          rm -rf "./server"
+          rm -rf "./.yarn.installed"
+          rm -rf "./base.tsconfig.json"
+          rm -rf "./build.js"
+          rm -rf "./package-lock.json"
+          rm -rf "./package.json"
+
+          mkdir ../discordbot-out
+          mv -v * ../discordbot-out/
+          mv -v ../discordbot-out/ ./discordbot/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: discordbot
+          path: |
+            ./*
+
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+
+      - name: Archive
+        shell: bash
+        run: |
+          7z a "discordbot.zip" "./discordbot/discordbot"
+
+      - name: Draft release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: true
+          files: |
+            ./*.zip

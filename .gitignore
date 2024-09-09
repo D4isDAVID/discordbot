@@ -1,0 +1,18 @@
+# Node.js packages
+node_modules/
+
+# esbuild out dir
+dist/
+
+# FiveM yarn
+.yarn.installed
+
+# IDE-related
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# OS-related
+.DS_Store
+Thumbs.db

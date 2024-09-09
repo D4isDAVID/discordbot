@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/package",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "prettier --ignore-path .gitignore -c .",
+    "format": "prettier --ignore-path .gitignore -w .",
+    "typecheck": "tsc -p server",
+    "build": "npm run typecheck && rimraf dist && node build.js"
+  },
+  "devDependencies": {
+    "@citizenfx/server": "^2.0.9780-1",
+    "@types/node": "16.9.1",
+    "esbuild": "^0.23.1",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.4"
+  }
+}
