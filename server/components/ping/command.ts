@@ -1,4 +1,7 @@
+import { WebSocketShardEvents } from '@discordjs/ws';
+import { gateway } from '../../utils/env.js';
 import { ChatInputCommand } from '../types.js';
+import { getPing } from './heartbeat.js';
 
 function pingMessage(p: string) {
     return `🏓 Pong! \`${p}\``;
@@ -9,20 +12,27 @@ export const command = {
         name: 'ping',
         description: 'Ping command',
     },
-    async execute({ api, data: interaction, cb }) {
-        cb();
+    async execute({ api, data: interaction }) {
+        let replied = false;
 
-        const first = Date.now();
-        await api.interactions.reply(interaction.id, interaction.token, {
-            content: pingMessage('fetching...'),
-        });
+        if (getPing() < 0) {
+            const heartbeatPromise = new Promise<unknown>((resolve) => {
+                gateway.once(WebSocketShardEvents.HeartbeatComplete, resolve);
+            });
 
-        const ping = Math.ceil((Date.now() - first) / 2);
-        await api.interactions.editReply(
-            interaction.application_id,
+            await api.interactions.reply(interaction.id, interaction.token, {
+                content: pingMessage('fetching...'),
+            });
+
+            await heartbeatPromise;
+            replied = true;
+        }
+
+        await api.interactions[replied ? 'editReply' : 'reply'](
+            replied ? interaction.application_id : interaction.id,
             interaction.token,
             {
-                content: pingMessage(`${ping}ms`),
+                content: pingMessage(`${getPing()}ms`),
             },
         );
     },

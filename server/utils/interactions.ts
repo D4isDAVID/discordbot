@@ -6,7 +6,7 @@ import {
     APIChatInputApplicationCommandInteractionData,
     APIModalSubmission,
     ApplicationCommandOptionType,
-} from '@discordjs/core/http-only';
+} from '@discordjs/core';
 
 type MappedChatInputOptionValues = Record<string, string | number | boolean>;
 

@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "patch-package",
     "lint": "prettier --ignore-path .gitignore -c .",
     "format": "prettier --ignore-path .gitignore -w .",
     "typecheck": "tsc -p server",
@@ -12,12 +13,13 @@
     "@discordjs/core": "1.0.0",
     "@discordjs/rest": "2.0.0",
     "@discordjs/util": "1.0.0",
-    "tweetnacl": "^1.0.3"
+    "@discordjs/ws": "1.0.0"
   },
   "devDependencies": {
     "@citizenfx/server": "^2.0.9780-1",
     "@types/node": "16.9.1",
     "esbuild": "^0.23.1",
+    "patch-package": "^8.0.0",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "typescript": "^5.5.4"

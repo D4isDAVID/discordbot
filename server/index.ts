@@ -1,8 +1,7 @@
-import { setTimeout } from 'timers/promises';
-import { inspect } from 'util';
+import { setTimeout } from 'node:timers/promises';
+import { inspect } from 'node:util';
 import { commands, loadComponents } from './components/loader.js';
-import { setupHttpHandler } from './http/handler.js';
-import { api, botToken } from './utils/env.js';
+import { api, botToken, gateway } from './utils/env.js';
 
 (async () => {
     await setTimeout(0);
@@ -17,8 +16,6 @@ import { api, botToken } from './utils/env.js';
     loadComponents();
 
     const app = await api.oauth2.getCurrentBotApplicationInformation();
-    setupHttpHandler(app.verify_key);
-
     RegisterCommand(
         'discordbot:deploy',
         async () => {
@@ -31,4 +28,6 @@ import { api, botToken } from './utils/env.js';
         },
         true,
     );
+
+    await gateway.connect();
 })().catch((e) => console.log(inspect(e)));

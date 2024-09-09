@@ -1,9 +1,10 @@
 import { Collection } from '@discordjs/collection';
-import { RESTPutAPIApplicationCommandsJSONBody } from '@discordjs/core/http-only';
+import { RESTPutAPIApplicationCommandsJSONBody } from '@discordjs/core';
 import EventEmitter from 'node:events';
 import { inspect } from 'node:util';
-import { rest } from '../utils/env.js';
+import { client, gateway, rest } from '../utils/env.js';
 import { isStatefulInteraction } from '../utils/stateful.js';
+import core from './core/index.js';
 import ping from './ping/index.js';
 import {
     ApplicationCommand,
@@ -45,11 +46,15 @@ function registerEvents(emitter: EventEmitter, events: EventsMap[EventName][]) {
 
 function loadComponent({
     restEvents,
+    wsEvents,
+    gatewayEvents,
     commands: componentCommands,
     messageComponents,
     modals,
 }: Component) {
     restEvents && registerEvents(rest, restEvents);
+    wsEvents && registerEvents(gateway, wsEvents);
+    gatewayEvents && registerEvents(client, gatewayEvents);
 
     componentCommands?.map((command) => {
         interactions.commands.set(command.data.name, command);
@@ -71,5 +76,6 @@ function loadComponent({
 }
 
 export function loadComponents() {
+    loadComponent(core);
     loadComponent(ping);
 }

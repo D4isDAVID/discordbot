@@ -1,0 +1,14 @@
+diff --git a/node_modules/@discordjs/ws/dist/index.mjs b/node_modules/@discordjs/ws/dist/index.mjs
+index be08932..4b8fe39 100644
+--- a/node_modules/@discordjs/ws/dist/index.mjs
++++ b/node_modules/@discordjs/ws/dist/index.mjs
+@@ -220,9 +220,6 @@ var WorkerShardingStrategy = class {
+   }
+   resolveWorkerPath() {
+     const path2 = this.options.workerPath;
+-    if (!path2) {
+-      return join(__dirname, "defaultWorker.js");
+-    }
+     if (isAbsolute(path2)) {
+       return path2;
+     }
