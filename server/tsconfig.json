@@ -7,9 +7,7 @@
 
     "types": ["node", "@citizenfx/server"],
 
-    "lib": ["ES2021"],
-
-    "skipLibCheck": true
+    "lib": ["ES2021"]
   },
   "include": ["."]
 }

@@ -1,0 +1,20 @@
+diff --git a/node_modules/@citizenfx/server/index.d.ts b/node_modules/@citizenfx/server/index.d.ts
+index c46d22f..a8c6421 100644
+--- a/node_modules/@citizenfx/server/index.d.ts
++++ b/node_modules/@citizenfx/server/index.d.ts
+@@ -130,15 +130,6 @@ declare var GlobalState : StateBagInterface
+ declare function Player(entity: number|string): EntityInterface
+ declare var LocalPlayer : EntityInterface
+ 
+-interface CitizenExports {
+-    (exportKey: string | number, exportFunction: Function): void;
+-    [resourceName: string] : {
+-        [exportKey: string | number]: Function
+-    };
+-}
+-
+-declare var exports: CitizenExports;
+-
+ declare var source: number;
+ 
+ // Commented methods are not implemented yet

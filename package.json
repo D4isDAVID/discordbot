@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@citizenfx/server": "^2.0.9780-1",
-    "@types/node": "16.9.1",
+    "@types/node": "^22.5.4",
     "esbuild": "^0.23.1",
     "patch-package": "^8.0.0",
     "prettier": "^3.3.3",
