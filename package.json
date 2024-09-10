@@ -10,6 +10,7 @@
     "build": "npm run typecheck && rimraf dist && node build.js"
   },
   "dependencies": {
+    "@discordjs/collection": "1.5.2",
     "@discordjs/core": "1.0.0",
     "@discordjs/rest": "2.0.0",
     "@discordjs/util": "1.0.0",

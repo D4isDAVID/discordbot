@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
+            patches
             server
             CHANGELOG.md
             LICENSE
@@ -46,6 +47,7 @@ jobs:
         run: |
           rm -rf "./.git"
           rm -rf "./node_modules"
+          rm -rf "./patches"
           rm -rf "./server"
           rm -rf "./.yarn.installed"
           rm -rf "./base.tsconfig.json"
