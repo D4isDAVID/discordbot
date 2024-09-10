@@ -1,5 +1,8 @@
 import { Collection } from '@discordjs/collection';
-import { RESTPutAPIApplicationCommandsJSONBody } from '@discordjs/core';
+import {
+    RESTPutAPIApplicationCommandsJSONBody,
+    RESTPutAPIApplicationGuildCommandsJSONBody,
+} from '@discordjs/core';
 import EventEmitter from 'node:events';
 import { inspect } from 'node:util';
 import { client, gateway, rest } from '../utils/env.js';
@@ -21,7 +24,9 @@ export const interactions = {
     modals: new Collection<string, Modal>(),
 };
 
-export const commands: RESTPutAPIApplicationCommandsJSONBody = [];
+export const globalCommands: RESTPutAPIApplicationCommandsJSONBody = [];
+export const guildSpecificCommands: RESTPutAPIApplicationGuildCommandsJSONBody =
+    [];
 
 export const statefuls = {
     messageComponents: [],
@@ -58,7 +63,9 @@ function loadComponent({
 
     componentCommands?.map((command) => {
         interactions.commands.set(command.data.name, command);
-        commands.push(command.data);
+        (command.guildSpecific ? guildSpecificCommands : globalCommands).push(
+            command.data,
+        );
     });
     messageComponents?.map((messageComponent) => {
         const customId = messageComponent.data.custom_id;

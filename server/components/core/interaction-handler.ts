@@ -3,6 +3,7 @@ import {
     GatewayDispatchEvents,
     InteractionType,
 } from '@discordjs/core';
+import { guildId } from '../../utils/env.js';
 import { interactions, statefuls } from '../loader.js';
 import { GatewayEvent } from '../types.js';
 
@@ -29,6 +30,12 @@ export const interactionHandler = {
                     throw new Error(
                         `Command not defined for ${interaction.data.name}.`,
                     );
+
+                if (
+                    command.guildSpecific &&
+                    (!guildId || interaction.guild_id !== guildId)
+                )
+                    return;
 
                 if (
                     interaction.type === InteractionType.ApplicationCommand &&

@@ -85,6 +85,9 @@ export type InteractionExecuteArgs<T extends APIInteraction> =
 
 export interface IInteraction<T extends APIInteraction> {
     readonly data: InteractionData<T>;
+    readonly guildSpecific?: T extends APIApplicationCommandInteraction
+        ? boolean
+        : never;
     readonly execute: (props: InteractionExecuteArgs<T>) => Awaitable<void>;
     readonly autocomplete?: T extends APIChatInputApplicationCommandInteraction
         ? (
