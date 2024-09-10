@@ -5,7 +5,7 @@ import {
 } from '@discordjs/core';
 import EventEmitter from 'node:events';
 import { inspect } from 'node:util';
-import { client, gateway, rest } from '../utils/env.js';
+import { client, gateway, rest, zdiscordBridge } from '../utils/env.js';
 import { isStatefulInteraction } from '../utils/stateful.js';
 import core from './core/index.js';
 import ping from './ping/index.js';
@@ -17,6 +17,7 @@ import {
     MessageComponent,
     Modal,
 } from './types.js';
+import zdiscord from './zdiscord/index.js';
 
 export const interactions = {
     commands: new Collection<string, ApplicationCommand>(),
@@ -85,4 +86,8 @@ function loadComponent({
 export function loadComponents() {
     loadComponent(core);
     loadComponent(ping);
+    if (zdiscordBridge) {
+        loadComponent(zdiscord);
+        console.log('zdiscord bridge enabled');
+    }
 }

@@ -11,3 +11,5 @@ server_only 'yes'
 server_scripts {
     'dist/server.js',
 }
+
+provide 'zdiscord'
