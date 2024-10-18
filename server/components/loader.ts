@@ -9,6 +9,7 @@ import { client, gateway, rest, zdiscordBridge } from '../utils/env.js';
 import { isStatefulInteraction } from '../utils/stateful.js';
 import core from './core/index.js';
 import ping from './ping/index.js';
+import standalone from './standalone/index.js';
 import {
     ApplicationCommand,
     Component,
@@ -86,6 +87,7 @@ function loadComponent({
 export function loadComponents() {
     loadComponent(core);
     loadComponent(ping);
+    loadComponent(standalone);
     if (zdiscordBridge) {
         loadComponent(zdiscord);
         console.log('zdiscord bridge enabled');
